@@ -38,7 +38,7 @@ public class Sistema {
 	 * Construtor da classe, inicializa o mapa que armazenará os cenários
 	 * cadastrados, inicializa o índice que representa a ordem de cadastro dos
 	 * cenários e recebe o caixa inicial do Sistema e a taxa para calcular o quanto
-	 * o Sistema ganha em cada aposta encerrada.
+	 * o Sistema ganha em cada aposta encerrada, o comparador, inicialmente, é de ordem de cadastro .
 	 * 
 	 * @param caixa
 	 *            Dinheiro total inicial do Sistema.
