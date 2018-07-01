@@ -3,7 +3,7 @@ package seguros;
 /**
  * Representação de um seguro calculado por taxa
  * 
- * @author rafaela
+ * @author Rafaela de Amorim - 117.210.299
  *
  */
 public class SeguroTaxa extends Seguro {

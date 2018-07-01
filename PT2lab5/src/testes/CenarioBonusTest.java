@@ -12,7 +12,7 @@ public class CenarioBonusTest {
 	CenarioBonus cb;
 	@Before
 	public void inicia() {
-		cb = new CenarioBonus("Meus dedos vão cair antes de terminar o semestre", 0.1, 2000);
+		cb = new CenarioBonus("Meus dedos vão cair antes de terminar o semestre", 0.1, 2000, 1);
 	}
 	
 	@Test(expected=IllegalAccessError.class)
@@ -35,23 +35,23 @@ public class CenarioBonusTest {
 
 	@Test(expected=NullPointerException.class)
 	public void testCenarioBonusDescr() {
-		CenarioBonus erro = new CenarioBonus(null, 0, 0);
+		CenarioBonus erro = new CenarioBonus(null, 0, 0, 2);
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
 	public void testCenarioBonBonus() {
-		CenarioBonus erro = new CenarioBonus("descricao generica sono", 0, -89);
+		CenarioBonus erro = new CenarioBonus("descricao generica sono", 0, -89, 2);
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
 	public void testCenarioBonusDescrInvalid() {
-		CenarioBonus erro = new CenarioBonus("    ", 0, 0);
+		CenarioBonus erro = new CenarioBonus("    ", 0, 0, 2);
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
 	public void testCenarioBonusPorcInvalid() {
 		CenarioBonus erro; 
-		erro = new CenarioBonus("nunca mais eu me matriculo em aa dnovo meus dedinhos lindos vão cair", -1455862, 6);
+		erro = new CenarioBonus("nunca mais eu me matriculo em aa dnovo meus dedinhos lindos vão cair", -1455862, 6, 2);
 	}
 	
 	@Test

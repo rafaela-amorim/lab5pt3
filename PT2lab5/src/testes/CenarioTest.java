@@ -6,24 +6,24 @@ import org.junit.Before;
 import org.junit.Test;
 
 import Cenarios.Cenario;
-import lab5pt2.Aposta;
+import lab5.Aposta;
 
 public class CenarioTest {
 	
 	Cenario cen;
 	@Before
 	public void inicia() {
-		cen = new Cenario("EU VOU PAGAR CÁLCULO II COM NOTA BOA", 0.1);
+		cen = new Cenario("EU VOU PAGAR CÁLCULO II COM NOTA BOA", 0.1, 1);
 	}
 	
 	@Test(expected=NullPointerException.class)
 	public void nullDescr() {
-		Cenario erro = new Cenario(null, 0.2);
+		Cenario erro = new Cenario(null, 0.2, 2);
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
 	public void invalidTax() {
-		Cenario erro = new Cenario("rafa vai pagar aa sem chorar", -1);
+		Cenario erro = new Cenario("rafa vai pagar aa sem chorar", -1, 2);
 	}
 
 	@Test(expected=NullPointerException.class)
@@ -113,7 +113,7 @@ public class CenarioTest {
 	
 	@Test
 	public void testGetEstado_N_ocorreu() {
-		Cenario novo = new Cenario("RAFAELA VAI COMER MUITOO", 0.3);
+		Cenario novo = new Cenario("RAFAELA VAI COMER MUITOO", 0.3, 2);
 		//novo.fecharAposta(false);
 		System.out.println(novo.getEstado());
 		//assertEquals("Finalizado (n ocorreu)", novo.getEstado());

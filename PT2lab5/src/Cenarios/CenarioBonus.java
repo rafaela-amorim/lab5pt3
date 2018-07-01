@@ -1,9 +1,11 @@
 package Cenarios;
 
+import lab5.Validador;
+
 /**
  * Representação de um cenario com bonus, extensão de cenário
  * 
- * @author rafaela
+ * @author Rafaela de Amorim - 117.210.299
  *
  */
 public class CenarioBonus extends Cenario {
@@ -25,10 +27,10 @@ public class CenarioBonus extends Cenario {
 	 * @param bonus
 	 *            Bônus de dinheiro somado ao rateio para os vencedores da aposta.
 	 */
-	public CenarioBonus(String descricao, double porcentagem, int bonus) {
-		super(descricao, porcentagem);
+	public CenarioBonus(String descricao, double porcentagem, int bonus, int id) {
+		super(descricao, porcentagem, id);
 		try {
-			this.bonus = super.valida.bonusCenario(bonus);
+			this.bonus = Validador.bonusCenario(bonus);
 		} catch (IllegalArgumentException i) {
 			throw new IllegalArgumentException("Erro no cadastro de cenario: " + i.getMessage());
 		}

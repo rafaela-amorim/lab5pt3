@@ -3,7 +3,7 @@ package seguros;
 /**
  * Representação padrão do seguro
  * 
- * @author rafaela
+ * @author Rafaela de Amorim - 117.210.299
  *
  */
 public abstract class Seguro {

@@ -1,4 +1,4 @@
-package lab5pt2;
+package lab5;
 
 import seguros.Seguro;
 import seguros.SeguroTaxa;
@@ -8,7 +8,7 @@ import seguros.SemSeguro;
 /**
  * Representação de uma aposta, aposta pode ser assegurada ou não
  * 
- * @author rafaela
+ * @author Rafaela de Amorim - 117.210.299
  *
  */
 public class Aposta {
@@ -19,8 +19,6 @@ public class Aposta {
 	private int valor;
 
 	private String previsao;
-
-	protected Validador valida;
 
 	private Seguro seguro;
 
@@ -40,10 +38,9 @@ public class Aposta {
 	 *            Previsão da aposta, se vai acontecer ou não.
 	 */
 	public Aposta(String nome, int valor, String previsao) {
-		valida = new Validador();
-		this.nomeApostador = valida.nomeApostador(nome);
-		this.valor = valida.valorAposta(valor);
-		this.previsao = valida.previsaoAposta(previsao);
+		this.nomeApostador = Validador.nomeApostador(nome);
+		this.valor = Validador.valorAposta(valor);
+		this.previsao = Validador.previsaoAposta(previsao);
 		seguro = new SemSeguro();
 	}
 
@@ -61,7 +58,7 @@ public class Aposta {
 	 */
 	public Aposta(String nome, int valor, String previsao, int valorSeguro) {
 		this(nome, valor, previsao);
-		seguro = new SeguroValor(valida.valorSeguroAposta(valorSeguro));
+		seguro = new SeguroValor(Validador.valorSeguroAposta(valorSeguro));
 	}
 
 	/**
@@ -128,7 +125,7 @@ public class Aposta {
 	 */
 	public void alteraSeguroValor(int valor) {
 		try {
-			valida.valorSeguroAposta(valor);
+			Validador.valorSeguroAposta(valor);
 			seguro = new SeguroValor(valor);
 		} catch (IllegalArgumentException i) {
 			throw new IllegalArgumentException("Erro ao alterar seguro da aposta: " + i.getMessage());
@@ -143,7 +140,7 @@ public class Aposta {
 	 */
 	public void alteraSeguroTaxa(double taxa) {
 		try {
-			valida.taxaSeguroAposta(taxa);
+			Validador.taxaSeguroAposta(taxa);
 			seguro = new SeguroTaxa(getValor(), taxa);
 		} catch (IllegalArgumentException i) {
 			throw new IllegalArgumentException("Erro ao alterar seguro da aposta: " + i.getMessage());

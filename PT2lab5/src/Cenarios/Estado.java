@@ -2,7 +2,7 @@ package Cenarios;
 /**
  * Representa estado atual de cenário
  * 
- * @author rafaela
+ * @author Rafaela de Amorim - 117.210.299
  *
  */
 public enum Estado {

@@ -1,22 +1,23 @@
-package lab5pt2;
+package lab5;
 
 import easyaccept.EasyAccept;
 
 /**
  * Representação da fachada do sistema, controla todas as funções disponiveis
  * 
- * @author rafaela
+ * @author Rafaela de Amorim - 117.210.299
  *
  */
 public class Facade {
 
 	public static void main(String[] args) {
-		args = new String[] { "lab5pt2.Facade", "easyAccept/us1_test.txt",
-												"easyAccept/us2_test.txt",
-												"easyAccept/us3_test.txt",
-												"easyAccept/us4_test.txt",
-												"easyAccept/us5_test.txt",
-												"easyAccept/us6_test.txt"};
+		args = new String[] { "lab5.Facade", "easyAccept/us1_test.txt",
+											 "easyAccept/us2_test.txt",
+											 "easyAccept/us3_test.txt",
+											 "easyAccept/us4_test.txt",
+											 "easyAccept/us5_test.txt",
+											 "easyAccept/us6_test.txt",
+											 "easyAccept/us7_test.txt"};
 		EasyAccept.main(args);
 	}
 
@@ -297,5 +298,29 @@ public class Facade {
 	public int alterarSeguroTaxa(int cenario, int apostaAssegurada, double taxa) {
 		jaInicializou();
 		return sistema.alterarSeguroTaxa(cenario, apostaAssegurada, taxa);
+	}
+	
+	/**
+	 * Altera o método de comparação para a ordenação dos cenários.
+	 * 
+	 * @param ordem
+	 *            parâmetro de ordenação
+	 */
+	public void alterarOrdem(String ordem) {
+		jaInicializou();
+		sistema.alterarOrdem(ordem);
+	}
+	
+	/**
+	 * Recebe um número que representa a posição do cenário desejado, o cenário será
+	 * exibido de acordo com a nova ordenação.
+	 * 
+	 * @param cenario
+	 *            Posição do cenário.
+	 * @return Representação textual do cenpário.
+	 */
+	public String exibirCenarioOrdenado(int cenario) {
+		jaInicializou();
+		return sistema.exibirCenarioOrdenado(cenario);
 	}
 }

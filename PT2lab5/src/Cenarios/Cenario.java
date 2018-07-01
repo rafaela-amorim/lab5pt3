@@ -2,26 +2,27 @@ package Cenarios;
 
 import java.util.HashMap;
 
-import lab5pt2.Aposta;
-import lab5pt2.Validador;
+import lab5.Aposta;
+import lab5.Validador;
 
 /**
- * Representação de um cenario, ele pode ter bônus ou não, ambos podem conter várias apostas
+ * Representação de um cenario, ele pode ter bônus ou não, ambos podem conter
+ * várias apostas
  * 
- * @author rafaela
+ * @author Rafaela de Amorim - 117.210.299
  *
  */
 public class Cenario {
 
 	// Atributos
 
+	private int id;
 	private HashMap<Integer, Aposta> apostas;
 	private String descricao;
 	private Estado estado;
 	private double porcentagem;
 	private int caixaPerdedor;
 	private int index;
-	protected Validador valida;
 
 	// Construtor
 
@@ -30,25 +31,23 @@ public class Cenario {
 	 * cálculo do montante destinado ao caixa do Sistema quando as apostas forem
 	 * encerradas.
 	 * 
-	 * O estado do cenário inicia em Não finalizado, o caixa perdedor inicia em -1,
-	 * o index, ou índice, inicia em 1 e o validador e o hashmap é inicializado.
+	 * O estado do cenário inicia em Não finalizado, o index inicia em 1 e o
+	 * e hashmap inicializado.
 	 * 
 	 * @param descricao
 	 *            Descrição do cenário
 	 * @param porcentagem
 	 *            taxa para calcular o dinheiro para o caixa do Sistema
 	 */
-	public Cenario(String descricao, double porcentagem) {
-		valida = new Validador();
-
+	public Cenario(String descricao, double porcentagem, int id) {
 		try {
-			this.descricao = valida.descricaoCenario(descricao);
-			this.porcentagem = valida.taxaSistema(porcentagem);
+			this.descricao = Validador.descricaoCenario(descricao);
+			this.porcentagem = Validador.taxaSistema(porcentagem);
 
 			estado = Estado.N_FINALIZADO;
 			apostas = new HashMap<>();
 			index = 1;
-			caixaPerdedor = -1;
+			this.id = id;
 		} catch (NullPointerException n) {
 			throw new NullPointerException("Erro no cadastro de cenario: " + n.getMessage());
 		} catch (IllegalArgumentException i) {
@@ -66,7 +65,7 @@ public class Cenario {
 	 * @return Retorna o índice da aposta.
 	 */
 	private int cadastraApostaAux(Aposta aposta) {
-		valida.cenarioFechado(getEstado());
+		Validador.cenarioFechado(getEstado());
 		apostas.put(index, aposta);
 		return index++;
 	}
@@ -151,7 +150,7 @@ public class Cenario {
 	 *            Boolean que determina se a descrição do cenário ocorreu ou não.
 	 */
 	public void fecharAposta(boolean ocorreu) {
-		valida.cenarioFechado(getEstado());
+		Validador.cenarioFechado(getEstado());
 
 		int caixaAux;
 
@@ -181,7 +180,7 @@ public class Cenario {
 	 * @return a quantia de dinheiro que irá para o sistema.
 	 */
 	public int getCaixaCenario() {
-		valida.cenarioAberto(getEstado());
+		Validador.cenarioAberto(getEstado());
 		return (int) Math.floor(caixaPerdedor * porcentagem);
 	}
 
@@ -204,8 +203,17 @@ public class Cenario {
 	 * @return Retorna o valor para distribuir entre os ganhadores, ou 0.
 	 */
 	public int calculaRateio() {
-		valida.cenarioAberto(getEstado());
+		Validador.cenarioAberto(getEstado());
 		return caixaPerdedor - getCaixaCenario();
+	}
+
+	/**
+	 * Retorna o identificador do cenário.
+	 * 
+	 * @return Identificador do cenário.
+	 */
+	public int getId() {
+		return id;
 	}
 
 	/**
@@ -232,7 +240,7 @@ public class Cenario {
 	 */
 	@Override
 	public String toString() {
-		return getDescricao() + " - " + getEstado();
+		return id + " - " + getDescricao() + " - " + getEstado();
 	}
 
 	/**
@@ -313,8 +321,8 @@ public class Cenario {
 	 * @return valor assegurado dos perdedores.
 	 */
 	public int valorAssegurado() {
-		valida.cenarioAberto(getEstado());
-		
+		Validador.cenarioAberto(getEstado());
+
 		int saida = 0;
 
 		for (Aposta ap : apostas.values()) {

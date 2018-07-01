@@ -3,7 +3,7 @@ package seguros;
 /**
  * Representação genérica para um seguro nulo
  * 
- * @author rafaela
+ * @author Rafaela de Amorim - 117.210.299
  *
  */
 public class SemSeguro extends Seguro{

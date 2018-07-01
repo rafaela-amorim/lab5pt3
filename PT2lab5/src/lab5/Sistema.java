@@ -1,15 +1,21 @@
-package lab5pt2;
+package lab5;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
 import Cenarios.Cenario;
 import Cenarios.CenarioBonus;
+import Comparators.OrdemApostas;
+import Comparators.OrdemCadastro;
+import Comparators.OrdemNome;
 
 /**
  * Representa o sistema de apostas, pode conter diversos cenários diferentes
  * 
- * @author rafaela
+ * @author Rafaela de Amorim - 117.210.299
  *
  */
 public class Sistema {
@@ -24,7 +30,7 @@ public class Sistema {
 
 	private HashMap<Integer, Cenario> cenarios;
 
-	private Validador valida;
+	private Comparator<Cenario> comparador;
 
 	// Construtores
 
@@ -40,13 +46,13 @@ public class Sistema {
 	 *            Taxa para calcular o ganho do Sistema.
 	 */
 	public Sistema(int caixa, double taxa) {
-		valida = new Validador();
 		cenarios = new HashMap<>();
 		indiceCenarios = 1;
-		
-		try { 
-			this.caixa = valida.caixaSistema(caixa);
-			this.taxa = valida.taxaSistema(taxa);
+		comparador = new OrdemCadastro();
+
+		try {
+			this.caixa = Validador.caixaSistema(caixa);
+			this.taxa = Validador.taxaSistema(taxa);
 		} catch (IllegalArgumentException e) {
 			throw new IllegalArgumentException("Erro na inicializacao: " + e.getMessage());
 		}
@@ -61,7 +67,7 @@ public class Sistema {
 	 *            numeração do cenário.
 	 */
 	private void verificaCenario(int index) throws IllegalAccessError {
-		valida.indexCenarioSistema(index);
+		Validador.indexCenarioSistema(index);
 
 		if (!(cenarios.containsKey(index))) {
 			throw new IllegalAccessError("Cenario nao cadastrado");
@@ -76,7 +82,7 @@ public class Sistema {
 	 * @return O índice do cenário cadastrado.
 	 */
 	public int cadastrarCenario(String descricao) {
-		Cenario aux = new Cenario(descricao, taxa);
+		Cenario aux = new Cenario(descricao, taxa, indiceCenarios);
 		cenarios.put(indiceCenarios, aux);
 		return indiceCenarios++;
 	}
@@ -91,7 +97,7 @@ public class Sistema {
 	 * @return Retorna o identificador do cenário.
 	 */
 	public int cadastrarCenario(String descricao, int bonus) {
-		Cenario aux = new CenarioBonus(descricao, taxa, bonus);
+		Cenario aux = new CenarioBonus(descricao, taxa, bonus, indiceCenarios);
 		cenarios.put(indiceCenarios, aux);
 		this.caixa -= bonus;
 		return indiceCenarios++;
@@ -154,7 +160,7 @@ public class Sistema {
 			throw new IllegalArgumentException("Erro no cadastro de aposta assegurada por valor: " + e.getMessage());
 		} catch (IllegalAccessError e) {
 			throw new IllegalAccessError("Erro no cadastro de aposta assegurada por valor: " + e.getMessage());
-		} 
+		}
 	}
 
 	/**
@@ -203,7 +209,7 @@ public class Sistema {
 	public String exibirCenario(int cenario) {
 		try {
 			verificaCenario(cenario);
-			return cenario + " - " + cenarios.get(cenario).toString();
+			return cenarios.get(cenario).toString();
 		} catch (IllegalAccessError a) {
 			throw new IllegalAccessError("Erro na consulta de cenario: " + a.getMessage());
 		}
@@ -219,7 +225,7 @@ public class Sistema {
 		String lista = "";
 
 		for (Map.Entry<Integer, Cenario> par : cenarios.entrySet()) {
-			lista += par.getKey() + " - " + par.getValue().toString() + System.lineSeparator();
+			lista += par.getValue().toString() + System.lineSeparator();
 		}
 
 		return lista.trim();
@@ -377,6 +383,52 @@ public class Sistema {
 			return apostaAssegurada;
 		} catch (IllegalAccessError e) {
 			throw new IllegalAccessError("Erro ao alterar seguro da aposta: " + e.getMessage());
+		}
+	}
+
+	/**
+	 * Altera o método de comparação para a ordenação dos cenários.
+	 * 
+	 * @param ordem
+	 *            parâmetro de ordenação
+	 */
+	public void alterarOrdem(String ordem) {
+		try {
+			Validador.alteraOrdem(ordem);
+			if (ordem.equals("cadastro")) {
+				comparador = new OrdemCadastro();
+			} else if (ordem.equals("nome")) {
+				comparador = new OrdemNome();
+			} else if (ordem.equals("apostas")) {
+				comparador = new OrdemApostas();
+			}
+		} catch (NullPointerException n) {
+			throw new NullPointerException("Erro ao alterar ordem: " + n.getMessage());
+		} catch (IllegalArgumentException e) {
+			throw new IllegalArgumentException("Erro ao alterar ordem: " + e.getMessage());
+		}
+	}
+
+	/**
+	 * Recebe um número que representa a posição do cenário desejado, o cenário será
+	 * exibido de acordo com a nova ordenação.
+	 * 
+	 * @param cenario
+	 *            Posição do cenário.
+	 * @return Representação textual do cenpário.
+	 */
+	public String exibirCenarioOrdenado(int cenario) {
+		try {
+			verificaCenario(cenario);
+
+			ArrayList<Cenario> copia = new ArrayList<>();
+			copia.addAll(cenarios.values());
+
+			Collections.sort(copia, comparador);
+			return copia.get(cenario - 1).toString();
+
+		} catch (IllegalAccessError e) {
+			throw new IllegalAccessError("Erro na consulta de cenario ordenado: " + e.getMessage());
 		}
 	}
 }

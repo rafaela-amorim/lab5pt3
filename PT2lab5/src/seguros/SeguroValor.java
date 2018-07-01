@@ -3,7 +3,7 @@ package seguros;
 /**
  * Representação de um seguro de valor
  * 
- * @author rafaela
+ * @author Rafaela de Amorim - 117.210.299
  *
  */
 public class SeguroValor extends Seguro {

@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import lab5pt2.Sistema;
+import lab5.Sistema;
 
 public class SistemaTest {
 		
